@@ -1,9 +1,9 @@
 import { prisma } from "../libs/prisma";
-import { UserData } from "../schemas/user";
+import { RegisterData } from "../schemas/user";
 import bcrypt from "bcrypt"
 
 
-export const createUser = async (data: UserData) => {
+export const createUser = async (data: RegisterData) => {
 
     const hashedPassword = await bcrypt.hash(data.password, 10)
 

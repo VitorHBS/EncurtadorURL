@@ -1,10 +1,10 @@
 import { generateToken } from "../libs/jwt";
 import { prisma } from "../libs/prisma";
-import { UserData } from "../schemas/user";
+import { RegisterData } from "../schemas/user";
 import { createUser } from "./user";
 
 
-export const register = async (data: UserData) => {
+export const register = async (data: RegisterData) => {
     const hasUser = await prisma.user.findUnique({
         where: { email: data.email }
     });
