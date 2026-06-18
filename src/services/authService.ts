@@ -1,6 +1,7 @@
 import { generateToken } from "../libs/jwt";
 import { prisma } from "../libs/prisma";
 import { LoginData, RegisterData } from "../schemas/user";
+import { AppError } from "../utils/AppError";
 import { createUser, findUserByEmail } from "./user";
 import bcrypt from "bcrypt";
 
@@ -9,7 +10,7 @@ import bcrypt from "bcrypt";
 export const register = async (data: RegisterData) => {
     const hasUser = await findUserByEmail(data.email);
 
-    if (hasUser) throw new Error("Email já cadastrado");
+    if (hasUser) throw new AppError("Email já cadastrado", 401);
 
     const newUser = await createUser(data);
 
@@ -26,11 +27,11 @@ export const login = async (data: LoginData) => {
 
     const hasUser = await findUserByEmail(data.email);
 
-    if (!hasUser) throw new Error("Email não cadastrado");
+    if (!hasUser) throw new AppError("Credenciais inválidas", 401);
 
     const passwordMatch = await bcrypt.compare(data.password, hasUser.password);
 
-    if (!passwordMatch) throw new Error("Credenciais inválidas");
+    if (!passwordMatch) throw new AppError("Credenciais inválidas", 401);
 
     const token = await generateToken(hasUser.id);
 

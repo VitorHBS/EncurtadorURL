@@ -4,6 +4,7 @@ import express from "express";
 import dotenv from "dotenv"
 import mainRouter from "./routers/mainRouter";
 import authRouter from "./routers/auth";
+import { errorHandler } from "./middlewares/errorHandler"
 dotenv.config()
 
 const server = express();
@@ -15,6 +16,8 @@ server.use(express.urlencoded({ extended: true }));
 
 server.use(mainRouter);
 server.use(authRouter);
+
+server.use(errorHandler)
 
 server.listen(3000, () => {
     console.log(`Server rodando na porta http://localhost:3000/`);
