@@ -14,3 +14,5 @@ export const generateToken = (userId: number): string => {
 
     return token;
 }
+
+
