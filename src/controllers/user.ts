@@ -4,6 +4,6 @@ import { asyncHandler } from "../utils/asyncHandler";
 
 
 
-export const createUrl = asyncHandler(async (req: ExtendedRequest, res: Response) => {
+export const createLink = asyncHandler(async (req: ExtendedRequest, res: Response) => {
     
 })

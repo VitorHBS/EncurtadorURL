@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { findUserById } from "../services/user";
 import { AppError } from "../utils/AppError";
 import { asyncHandler } from "../utils/asyncHandler";
+import { TokenPayload } from "../types/token-payload";
 
 dotenv.config();
 
@@ -27,7 +28,9 @@ export const Auth = {
 
         if (typeof (decoded) !== "object") throw new AppError("Tipo decoded incorreto", 401)
 
-        const user = await findUserById(decoded.id);
+        const decodedId = decoded as TokenPayload;
+
+        const user = await findUserById(decodedId.id);
 
         if (!user) throw new AppError("Usuário inexistente", 401);
 
