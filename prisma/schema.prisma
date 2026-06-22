@@ -43,6 +43,6 @@ model Click {
   device    Device
   clickedAt DateTime @default(now())
 
-  link   Link @relation(fields: [linkId], references: [id])
+  link   Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
   linkId Int
 }

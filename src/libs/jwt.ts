@@ -15,4 +15,13 @@ export const generateToken = (userId: number): string => {
     return token;
 }
 
-
+export const readJWT = (hash: string) => {
+    try {
+        return JWT.verify(
+            hash,
+            process.env.JWT_SECRET_KEY as string
+        );
+    } catch (err) {
+        return false
+    }
+}
