@@ -3,7 +3,8 @@ import { ExtendedRequest } from "../types/ExtendedRequest";
 import { asyncHandler } from "../utils/asyncHandler";
 import { CreateLinkSchema } from "../schemas/link";
 import { AppError } from "../utils/AppError";
-import { createLink } from "../services/link";
+import { createLink, findLinksByUser } from "../services/link";
+import { link } from "fs";
 
 
 
@@ -25,6 +26,13 @@ export const createURL = asyncHandler(async (req: ExtendedRequest, res: Response
     });
 });
 
-export const findLinksByUser = asyncHandler(async (req: ExtendedRequest, res: Response) => {
+export const findUrlsByUser = asyncHandler(async (req: ExtendedRequest, res: Response) => {
 
+    if (!req.user) throw new AppError("Usuário não encontrado", 404);
+
+    const userId = req.user.id;
+
+    const linksUser = await findLinksByUser(userId);
+
+    return res.status(200).json({linksUser})
 });

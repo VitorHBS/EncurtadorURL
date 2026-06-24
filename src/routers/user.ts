@@ -5,7 +5,7 @@ import * as userController from "../controllers/user"
 
 const userRouter = Router();
 
-userRouter.get("/link", userController.findLinksByUser)
+userRouter.get("/link", Auth.private, userController.findUrlsByUser)
 userRouter.post("/link", Auth.private, userController.createURL)
 //userRouter.patch("/link/:id", Auth.private, updateLink)
 //userRouter.delete("/link/:id", Auth.private, deletelink)
