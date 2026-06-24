@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { ExtendedRequest } from "../types/ExtendedRequest";
-import { z } from "zod";
 import { LoginSchema, RegisterSchema } from "../schemas/user";
 import { login, register } from "../services/authService";
 import { asyncHandler } from "../utils/asyncHandler";
@@ -8,7 +6,7 @@ import { AppError } from "../utils/AppError";
 
 
 
-export const signup = asyncHandler(async (req: ExtendedRequest, res: Response) => {
+export const signup = asyncHandler(async (req: Request, res: Response) => {
 
     const safeData = RegisterSchema.safeParse(req.body);
 
@@ -19,7 +17,7 @@ export const signup = asyncHandler(async (req: ExtendedRequest, res: Response) =
     return res.status(201).json(newUser)
 });
 
-export const signin = asyncHandler(async (req: ExtendedRequest, res: Response) => {
+export const signin = asyncHandler(async (req: Request, res: Response) => {
 
     const safeData = LoginSchema.safeParse(req.body);
 

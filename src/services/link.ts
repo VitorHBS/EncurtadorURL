@@ -7,7 +7,6 @@ import { findUserById } from "./user";
 export const createLink = async ({ url, expiresAt }: LinkData, userId: number) => {
     let slug = await generateSlug();
 
-
     let hasLink = await prisma.link.findUnique({
         where: { slug }
     })
@@ -21,10 +20,6 @@ export const createLink = async ({ url, expiresAt }: LinkData, userId: number) =
         })
     }
 
-    const user = await findUserById(userId);
-
-    if (!user) throw new AppError("usuário nao encontrado", 404)
-
     const link = await prisma.link.create({
         data: {
             slug: slug,
@@ -32,7 +27,7 @@ export const createLink = async ({ url, expiresAt }: LinkData, userId: number) =
             expiresAt: expiresAt,
             user: {
                 connect: {
-                    id: user.id
+                    id: userId
                 }
             }
         }
