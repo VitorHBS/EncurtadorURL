@@ -7,7 +7,7 @@ const userRouter = Router();
 
 userRouter.get("/link", Auth.private, userController.findUrlsByUser)
 userRouter.post("/link", Auth.private, userController.createURL)
-//userRouter.patch("/link/:id", Auth.private, updateLink)
-//userRouter.delete("/link/:id", Auth.private, deletelink)
+userRouter.patch("/link/:id", Auth.private, userController.updateURL)
+userRouter.delete("/link/:id", Auth.private, userController.deleteURL)
 
 export default userRouter;

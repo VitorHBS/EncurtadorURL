@@ -40,6 +40,8 @@ export const findLinksByUser = async (userId: number) => {
     return await prisma.link.findMany({ where: { userId } })
 }
 
+
+// Função reutilizável para update e delete, acha o id do link e do user
 export const findLinkOwnedByUser = async (linkId: number, userId: number) => {
     const link = await prisma.link.findUnique({
         where: {
@@ -62,10 +64,20 @@ export const updateLink = async (linkId: number, userId: number, { url, expiresA
             id: link.id
         },
         data: {
-            ...(url && {url}),
-            ...(expiresAt && {expiresAt})
+            ...(url && { url }),
+            ...(expiresAt && { expiresAt })
         }
     })
 
     return updatedLink;
+}
+
+export const deleteLink = async (linkId: number, userId: number) => {
+    const link = await findLinkOwnedByUser(linkId, userId);
+    
+    return await prisma.link.delete({
+        where: {
+            id: link.id
+        }
+    })
 }

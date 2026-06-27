@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/AppError";
-import * as JWT from "jsonwebtoken";
 
 
 
@@ -14,14 +13,16 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
         });
     }
 
-    if (err instanceof JWT.TokenExpiredError) {
+
+
+    if (err.name === "TokenExpiredError") {
         return res.status(401).json({
             status: 'error',
             message: 'Access token has expired',
         })
     }
 
-    if(err instanceof JWT.JsonWebTokenError) {
+    if (err.name === "JsonWebTokenError") {
         return res.status(401).json({
             status: 'error',
             message: 'token is invalid'
