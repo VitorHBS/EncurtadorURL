@@ -10,4 +10,6 @@ userRouter.post("/link", Auth.private, userController.createURL)
 userRouter.patch("/link/:id", Auth.private, userController.updateURL)
 userRouter.delete("/link/:id", Auth.private, userController.deleteURL)
 
+userRouter.get("/link/:slug")
+
 export default userRouter;

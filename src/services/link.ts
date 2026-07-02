@@ -1,3 +1,4 @@
+import { threadId } from "node:worker_threads";
 import { prisma } from "../libs/prisma";
 import { LinkData, UpdateData } from "../schemas/link";
 import { AppError } from "../utils/AppError";
@@ -41,6 +42,43 @@ export const findLinksByUser = async (userId: number) => {
 }
 
 
+
+export const slugWithExpires = async (slug: string) => {
+    const hasSlug = await prisma.link.findFirst({
+        where: {
+            slug: slug,
+        }
+    })
+
+    if (!hasSlug) throw new AppError("Slug inexistente", 404);
+    if(hasSlug.expiresAt <= new Date()) throw new AppError("Link Expirado", 410)
+
+    return hasSlug
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Função reutilizável para update e delete, acha o id do link e do user
 export const findLinkOwnedByUser = async (linkId: number, userId: number) => {
     const link = await prisma.link.findUnique({
@@ -74,10 +112,11 @@ export const updateLink = async (linkId: number, userId: number, { url, expiresA
 
 export const deleteLink = async (linkId: number, userId: number) => {
     const link = await findLinkOwnedByUser(linkId, userId);
-    
+
     return await prisma.link.delete({
         where: {
             id: link.id
         }
     })
 }
+
