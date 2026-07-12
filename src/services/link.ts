@@ -60,28 +60,6 @@ export const slugWithExpires = async (slug: string) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Função reutilizável para update e delete, acha o id do link e do user
 export const findLinkOwnedByUser = async (linkId: number, userId: number) => {
     const link = await prisma.link.findUnique({
