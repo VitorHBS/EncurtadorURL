@@ -41,6 +41,9 @@ export const findLinksByUser = async (userId: number) => {
     return await prisma.link.findMany({ where: { userId } })
 }
 
+export const findLinkById = async (linkId: number) => {
+    return await prisma.link.findUnique({where: {id: linkId}})
+}
 
 
 export const slugWithExpires = async (slug: string) => {
