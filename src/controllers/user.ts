@@ -3,7 +3,7 @@ import { ExtendedRequest } from "../types/ExtendedRequest";
 import { asyncHandler } from "../utils/asyncHandler";
 import { CreateLinkSchema, UpdateLinkSchema } from "../schemas/link";
 import { AppError } from "../utils/AppError";
-import { createLink, deleteLink, findLinkOwnedByUser, findLinksByUser, updateLink } from "../services/link";
+import { createLink, deleteLink, findLinkById, findLinkOwnedByUser, findLinksByUser, updateLink } from "../services/link";
 
 
 
@@ -37,6 +37,17 @@ export const findUrlsByUser = asyncHandler(async (req: ExtendedRequest, res: Res
 });
 
 
+export const findLinkByLinkId = asyncHandler(async (req: ExtendedRequest, res: Response) => {
+
+    const user = req.user!.id;
+    const link = req.params.id;
+
+    const linkUser = await findLinkOwnedByUser(Number(link), user)
+
+    return res.status(200).json({ Link: linkUser })
+})
+
+
 export const updateURL = asyncHandler(async (req: ExtendedRequest, res: Response) => {
 
     if (!req.user) throw new AppError("Usuário não encontrado", 404);
@@ -66,7 +77,7 @@ export const deleteURL = asyncHandler(async (req: ExtendedRequest, res: Response
 
     const id = req.params.id;
 
-    if(!id) throw new AppError("id do link não fornecido", 400);
+    if (!id) throw new AppError("id do link não fornecido", 400);
 
     const linkId = Number(id);
 
