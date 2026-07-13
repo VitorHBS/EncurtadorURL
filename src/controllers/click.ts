@@ -3,9 +3,11 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { UAParser } from "ua-parser-js";
 import geoip from "geoip-lite";
 import { AppError } from "../utils/AppError";
-import { slugWithExpires } from "../services/link";
-import { registerClick } from "../services/click";
+import { findLinkOwnedByUser, slugWithExpires } from "../services/link";
+import { analytics, registerClick } from "../services/click";
 import { Device } from "@prisma/client";
+import { ExtendedRequest } from "../types/ExtendedRequest";
+import { count } from "node:console";
 
 
 export const countClick = asyncHandler(async (req: Request, res: Response) => {
@@ -40,3 +42,25 @@ export const countClick = asyncHandler(async (req: Request, res: Response) => {
 
     return res.status(302).redirect(hasSlug.url)
 });
+
+
+
+
+export const analyticsCount = asyncHandler(async (req: ExtendedRequest, res: Response) => {
+
+    const user = req.user!.id
+    const link = req.params.id
+
+    const linkUser = await findLinkOwnedByUser(Number(link), user)
+
+    const data = await analytics(linkUser.id)
+
+    console.log(data)
+
+    return res.status(200).json({
+        total: data.total,
+        country: data.byCountry,
+        device: data.byDevice,
+        month: data.byMonth
+    })
+})
