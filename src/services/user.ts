@@ -2,7 +2,6 @@ import { prisma } from "../libs/prisma";
 import { RegisterData, UpdateData } from "../schemas/user";
 import bcrypt from "bcrypt"
 import { AppError } from "../utils/AppError";
-import { bytes } from "node:stream/consumers";
 
 
 export const createUser = async (data: RegisterData) => {
@@ -48,7 +47,8 @@ export const editUser = async (userId: number, userData: UpdateData) => {
         if (userWithEmail && userWithEmail.id !== userId) throw new AppError("Email inválido, tente inserir outro", 400)
     }
 
-    const dataToUpdate: any = {};
+    //utilitário do TypeScript que pega um tipo existente e torna todos os campos opcionais.
+    const dataToUpdate: Partial<{name: string; email: string; password: string}> = {}
 
     if (userData.name) dataToUpdate.name = userData.name;
     if (userData.email) dataToUpdate.email = userData.email;

@@ -14,6 +14,7 @@ userRouter.get("/link/:slug", clickController.countClick);
 userRouter.post("/link", Auth.private, userController.createURL)
 
 userRouter.patch("/link/:id", Auth.private, userController.updateURL)
+userRouter.patch("/user/me", Auth.private, userController.updateUser)
 
 userRouter.delete("/link/:id", Auth.private, userController.deleteURL)
 

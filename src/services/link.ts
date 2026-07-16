@@ -1,9 +1,7 @@
-import { threadId } from "node:worker_threads";
 import { prisma } from "../libs/prisma";
 import { LinkData, UpdateData } from "../schemas/link";
 import { AppError } from "../utils/AppError";
 import { generateSlug } from "./slug";
-import { findUserById } from "./user";
 
 export const createLink = async ({ url, expiresAt }: LinkData, userId: number) => {
     let slug = await generateSlug();

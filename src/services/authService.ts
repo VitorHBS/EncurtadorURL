@@ -1,11 +1,8 @@
-import { Request } from "express";
 import { generateToken } from "../libs/jwt";
-import { prisma } from "../libs/prisma";
 import { LoginData, RegisterData } from "../schemas/user";
 import { AppError } from "../utils/AppError";
 import { createUser, findUserByEmail, findUserById } from "./user";
 import bcrypt from "bcrypt";
-import { TokenPayload } from "../types/token-payload";
 
 
 

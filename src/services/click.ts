@@ -1,6 +1,5 @@
 import { Device } from "@prisma/client";
 import { prisma } from "../libs/prisma";
-import { findLinkById, findLinkOwnedByUser } from "./link";
 
 
 export const registerClick = async (linkId: number, country: string, device: Device) => {

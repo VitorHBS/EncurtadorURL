@@ -7,7 +7,6 @@ import { findLinkOwnedByUser, slugWithExpires } from "../services/link";
 import { analytics, registerClick } from "../services/click";
 import { Device } from "@prisma/client";
 import { ExtendedRequest } from "../types/ExtendedRequest";
-import { count } from "node:console";
 
 
 export const countClick = asyncHandler(async (req: Request, res: Response) => {
