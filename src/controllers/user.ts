@@ -73,7 +73,7 @@ export const updateUser = asyncHandler(async(req: ExtendedRequest, res:Response)
     const userId = req.user.id;
 
     const safeData = UpdatedSchema.safeParse(req.body);
-    if(!safeData.success) throw new AppError("Dados inválidos2", 400);
+    if(!safeData.success) throw new AppError("Dados inválidos", 400);
 
     const updatedUser = await editUser(userId, safeData.data);
 
@@ -91,5 +91,5 @@ export const deleteURL = asyncHandler(async (req: ExtendedRequest, res: Response
 
     await deleteLink(linkId, user)
 
-    return res.status(204)
+    return res.status(204).send()
 })

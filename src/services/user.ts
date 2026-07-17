@@ -47,7 +47,6 @@ export const editUser = async (userId: number, userData: UpdateData) => {
         if (userWithEmail && userWithEmail.id !== userId) throw new AppError("Email inválido, tente inserir outro", 400)
     }
 
-    //utilitário do TypeScript que pega um tipo existente e torna todos os campos opcionais.
     const dataToUpdate: Partial<{name: string; email: string; password: string}> = {}
 
     if (userData.name) dataToUpdate.name = userData.name;
@@ -61,5 +60,8 @@ export const editUser = async (userId: number, userData: UpdateData) => {
         data: dataToUpdate
     })
 
-    return updateUser
+    return {
+        name: updateUser.name,
+        email: updateUser.email
+    }
 }
